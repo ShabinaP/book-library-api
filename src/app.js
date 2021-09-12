@@ -10,8 +10,8 @@ app.get('/reader', readerCtrl.read);
 
 app.get('/reader/:id', readerCtrl.readById);
 
-app.patch('/reader/:id', readerCtrl.updateById)
+app.patch('/reader/:id', readerCtrl.updateById);
 
-
+app.delete('/reader/:id', readerCtrl.deleteById);
 
 module.exports = app;

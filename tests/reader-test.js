@@ -14,8 +14,9 @@ describe('/reader', () => {
     describe('POST /reader', () => {
       it('creates a new reader in the database', async () => {
         const response = await request(app).post('/reader').send({
-          name: "Anne Hathaway",
-         email: 'florals_in_spring?@hotmail.com'
+         name: "Anne Hathaway",
+         email: 'florals_in_spring?@hotmail.com',
+         password: ''
         });
         const newReaderRecord = await Reader.findByPk(response.body.id, {
           raw: true,
@@ -25,6 +26,7 @@ describe('/reader', () => {
         expect(response.body.name).to.equal('Anne Hathaway');
         expect(newReaderRecord.name).to.equal('Anne Hathaway');
         expect(newReaderRecord.email).to.equal('florals_in_spring?@hotmail.com');
+        expect(newReaderRecord.password).to.equal('')
       });
     });
   });
@@ -37,14 +39,17 @@ describe('/reader', () => {
         Reader.create({
           name: 'Anne Hathaway',
           email: 'florals_in_spring?@hotmail.com',
+          password: ""
         }),
         Reader.create({ 
         name: 'Lara Jean',
-        email: 'love_letters@kavinsky.com'
+        email: 'love_letters@kavinsky.com',
+        password: ""
       }),
         Reader.create({ 
           name: 'Allie Hamilton',
-          email: 'im_a_bird@gmail.com'
+          email: 'im_a_bird@gmail.com',
+          password: ""
          }),
       ]);
     });
@@ -88,7 +93,7 @@ describe('/reader', () => {
         const reader = readers[0];
         const response = await request(app)
           .patch(`/reader/${reader.id}`)
-          .send({ email: 'can_you_spell_gabbana@hotmail.com' });
+          .send({ email: `can_you_spell_gabbana@hotmail.com` });
         const updatedReaderRecord = await Reader.findByPk(reader.id, {
           raw: true,
         });
@@ -100,7 +105,7 @@ describe('/reader', () => {
       it('returns a 404 if the reader does not exist', async () => {
         const response = await request(app)
           .patch('/reader/26273')
-          .send({ email: 'youre_not_going_to_paris@hotmail.com' });
+          .send({ email: 'can_you_spell_gabbana@hotmail.com'});
 
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal('The reader could not be found.');
@@ -118,7 +123,7 @@ describe('/reader', () => {
       });
 
       it('returns a 404 if the reader does not exist', async () => {
-        const response = await request(app).delete('/readers/26273');
+        const response = await request(app).delete('/reader/26273');
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal('The reader could not be found.');
       });
