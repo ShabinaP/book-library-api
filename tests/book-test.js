@@ -36,9 +36,11 @@ describe('/book', () => {
         });
     });
 
-describe('with records in the database', async () => {
+describe('with records in the database', () => {
     let books;
-    books = await Promise.all([
+
+    beforeEach(async ()  => {
+     books = await Promise.all([
 Book.create({
     title: 'The Kite Runner',
     author: 'Khaled Hosseini',
@@ -56,25 +58,26 @@ Book.create({
     author: 'Lucy Foley',
     genre: 'Thriller',
     ISBN: '33776655'
-})
-])
-})
+        })
+    ]);
+    });
+
+
 describe('GET/books', () => {
-    ('it returns all books', async () => {
+   it('it returns all books', async () => {
 const response = await request(app).get('/book');
 
 expect(response.status).to.equal(200);
 expect(response.body.length).to.equal(3)
 
 response.body.forEach((book)=> {
-    const expected = book.find((a)=> a.id === book.id)
+    const expected = books.find((a)=> a.id === book.id)
     expect(book.title).to.equal(expected.title);
     expect(book.author).to.equal(expected.author);
     expect(book.genre).to.equal(expected.genre);
     expect(book.ISBN).to.equal(expected.ISBN)
 });
     });
+})
 });
-
-});
-
+})
