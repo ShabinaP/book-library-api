@@ -79,5 +79,27 @@ response.body.forEach((book)=> {
 });
     });
 })
+describe('GET/book/:id', () => {
+    it('gets book record by id', async () => {
+        const book = books[0];
+        const response = await request(app).get(`/book/${book.id}`)
+    console.log(book)
+        expect(response.status).to.equal(200)
+        expect(response.body.title).to.equal(book.title);
+        expect(response.body.author).to.equal(book.author);
+        expect(response.body.genre).to.equal(book.genre);
+        expect(response.body.ISBN).to.equal(book.ISBN);
+    
+    })
+
+    it('returns a 404 if the book does not exist', async () => {
+        const response = await request(app).get('/book/9988');
+
+        expect(response.status).to.equal(404);
+        expect(response.body.error).to.equal('The book could not be found.')
+    });
+});
+
+
 });
 })
