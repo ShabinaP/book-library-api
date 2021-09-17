@@ -8,6 +8,8 @@ router.post('/', bookCtrl.create)
 
 router.get('/', bookCtrl.read)
 
+router.get('/:id',bookCtrl.readById)
+
 
 
 

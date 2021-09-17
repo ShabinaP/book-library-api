@@ -1,4 +1,5 @@
 const { Book } = require("../models")
+const book = require("../models/book")
 
 exports.create= async (request, response) => {
 const newBook = await Book.create(request.body)
@@ -11,3 +12,12 @@ exports.read = async (request, response) => {
     response.status(200).json(books)
 }
 
+exports.readById = async (request, response) => {
+    const bookId = request.params.id
+    const book = await Book.findByPk(bookId)
+    if(!book) {
+        response.status(404).json({ error: 'The book could not be found.'})
+    }
+    else {
+    response.status(200).json(book)}
+}

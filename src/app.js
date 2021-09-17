@@ -15,6 +15,8 @@ app.patch('/reader/:id', readerCtrl.updateById);
 
 app.delete('/reader/:id', readerCtrl.deleteById);
 
-app.use('/book', router)
+app.use('/book', router);
+
+app.use('/book/:id', router);
 
 module.exports = app;
