@@ -100,6 +100,22 @@ describe('GET/book/:id', () => {
     });
 });
 
+describe('DELETE /book/:id', () => {
+    it('deletes a book record by id if its no longer available for loan', async () => {
+const book = books[0];
+const response = await request(app).delete(`/book/${book.id}`);
+const deletedBook = await Book.findByPk(book.id, { raw: true});
+
+expect(response.status).to.equal(204);
+expect(deletedBook).to.equal(null);
+    });
+
+    it('returns a 404 if the book does not exist', async () => {
+        const response = await request(app).delete('/book/837633');
+        expect(response.status).to.equal(404);
+        expect(response.body.error).to.equal('The book could not be found.')
+    })
+})
 
 });
 })
