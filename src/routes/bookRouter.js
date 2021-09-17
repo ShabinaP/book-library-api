@@ -10,6 +10,8 @@ router.get('/', bookCtrl.read)
 
 router.get('/:id',bookCtrl.readById)
 
+router.delete('/:id', bookCtrl.delete)
+
 
 
 
