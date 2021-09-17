@@ -1,8 +1,22 @@
 module.exports = (connection, DataTypes) => {
     const schema = {
-        name: DataTypes.STRING,
-        email: DataTypes.STRING,
-        password: DataTypes.STRING
+
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            isEmail: true
+        },
+
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            len: 8
+        }
     };
 
     const ReaderModel = connection.define('Reader', schema);
