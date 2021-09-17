@@ -4,6 +4,7 @@ const { Reader } = require('../models');
 exports.create = async (request, response) => {
 const newReader = await Reader.create(request.body)
     response.status(201).json(newReader)
+    .catch()
 }
 
 exports.read = async(request, response) => {

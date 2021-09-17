@@ -3,19 +3,32 @@ module.exports = (connection, DataTypes) => {
 
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+            notNull: true,
+            initial: 0}
+           
         },
 
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            isEmail: true
+            validate: {
+            notNull: true,
+            initial: 0,
+            isEmail: true,
+           
+        }
         },
 
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+            notNull: true,
+            initial: 0,
             len: 8
+            }
         }
     };
 
