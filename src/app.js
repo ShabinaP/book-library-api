@@ -13,6 +13,8 @@ app.get('/reader/:id', readerCtrl.readById);
 
 app.patch('/reader/:id', readerCtrl.updateById);
 
+app.patch('/reader/:id', readerCtrl.update);
+
 app.delete('/reader/:id', readerCtrl.deleteById);
 
 app.use('/book', router);

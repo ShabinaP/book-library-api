@@ -39,17 +39,17 @@ describe('/reader', () => {
         Reader.create({
           name: 'Anne Hathaway',
           email: 'florals_in_spring?@hotmail.com',
-          password: ""
+          password: "efef3yyhhhh"
         }),
         Reader.create({ 
         name: 'Lara Jean',
         email: 'love_letters@kavinsky.com',
-        password: ""
+        password: "ddfwfsdc2"
       }),
         Reader.create({ 
           name: 'Allie Hamilton',
           email: 'im_a_bird@gmail.com',
-          password: ""
+          password: "hufihdsd"
          }),
       ]);
     });
@@ -111,6 +111,8 @@ describe('/reader', () => {
         expect(response.body.error).to.equal('The reader could not be found.');
       });
     });
+
+   
 
     describe('DELETE /reader/:id', () => {
       it('deletes reader record by id', async () => {

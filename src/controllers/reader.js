@@ -36,7 +36,22 @@ exports.updateById = async (request, response) => {
     }
     
 }
+// allow users to change passwordn- write tests.
+exports.update = async( request, response ) => {
+    const { id } = request.params
+    const reader = await Reader.findByPk(id)
+    const { password } = request.body
+    const [updatedRows] = await Reader.update({ password: password }, {where: {id:id}})
+    if(!reader) {
+        response.status(404).json({ error: 'The reader could not be found.'})
+    }
+    else {
+        response.status(200).json(updatedRows)
+    }
 
+
+}
+ 
 exports.deleteById = async (request, response) => {
     const { id } = request.params
     const reader = await Reader.findByPk(id)
