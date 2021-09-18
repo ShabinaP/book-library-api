@@ -27,6 +27,7 @@ module.exports = (connection, DataTypes) => {
             allowNull: false,
             validate: {
             notNull: true,
+            initial: 0,
             msg: "Please enter a valid password.",
             len: 8
             }

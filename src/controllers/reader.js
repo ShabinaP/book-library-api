@@ -5,9 +5,15 @@ exports.create = async (request, response) => {
     try {
 const newReader = await Reader.create(request.body)
     response.status(201).json(newReader)}
- catch(SequelizeValidationError) {
-     console.log()
-
+ catch(err) {
+    if(err.name === 'SequelizeValidationError') {
+        return response.status(400).json( {
+            msg: err.errors.map(e => e.msg)
+        })
+    }
+ else {
+     next(new ErrorResponse(`Sorry, could not create ${request.body.name}`, 404))
+ }
  }
 }
 
