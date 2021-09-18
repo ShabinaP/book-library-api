@@ -4,6 +4,7 @@ const { Book } = require('../src/models');
 const router = require('../src/routes/bookRouter');
 const app = require('../src/app');
 const book = require('../src/models/book');
+const dataFactory = require('../test-helpers/dataFactory')
 
 
 describe('/book', () => {
@@ -16,22 +17,16 @@ describe('/book', () => {
     describe('with no records in the database', () => {
         describe('POST /book', () => {
             it('creates a new book in the database', async () => {
-                const response = await request(app).post('/book').send({
-                title: "A place for us",
-                author: "Fatima Mirza",
-                genre: "Contemporary fiction",
-                ISBN: '22998877'
-                });
+                const response = await request(app).post('/book').send(dataFactory.bookCollection());
                 const newBookRecord = await Book.findByPk(response.body.id, {
                     raw: true
                 });
                 console.log({newBookRecord})
                 expect(response.status).to.equal(201);
-                expect(response.body.title).to.equal('A place for us');
-                expect(newBookRecord.title).to.equal('A place for us');
-                expect(newBookRecord.author).to.equal('Fatima Mirza');
-                expect(newBookRecord.genre).to.equal('Contemporary fiction');
-                expect(newBookRecord.ISBN).to.equal('22998877');
+                expect(response.body.title).to.equal(response.body.title);
+                expect(newBookRecord.author).to.equal(newBookRecord.author);
+                expect(newBookRecord.genre).to.equal(newBookRecord.genre);
+                expect(newBookRecord.ISBN).to.equal(newBookRecord.ISBN);
             });
         });
     });
@@ -41,24 +36,9 @@ describe('with records in the database', () => {
 
     beforeEach(async ()  => {
      books = await Promise.all([
-Book.create({
-    title: 'The Kite Runner',
-    author: 'Khaled Hosseini',
-    genre: 'Fiction',
-    ISBN:  '22558877'
-}),
-Book.create({
-    title: 'Why we sleep',
-    author: 'Matthew Walker',
-    genre: 'Non-fiction',
-    ISBN:  '44335522'
-}),
-Book.create({
-    title: 'The Hunting Party',
-    author: 'Lucy Foley',
-    genre: 'Thriller',
-    ISBN: '33776655'
-        })
+Book.create(dataFactory.bookCollection()),
+Book.create(dataFactory.bookCollection()),
+Book.create(dataFactory.bookCollection())
     ]);
     });
 

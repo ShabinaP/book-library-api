@@ -5,8 +5,7 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notNull: false,
-                initial: 0
+            notNull: false,
             }
         },
         author:{
@@ -14,7 +13,6 @@ module.exports = (connection, DataTypes) => {
             allowNull: false,
             validate: {
                 notNull: false,
-                initial: 0
             }
         },
         genre: {
@@ -22,9 +20,8 @@ module.exports = (connection, DataTypes) => {
         },
 
         ISBN: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             unique: true,
-            isNumeric: true
         },
 
     }

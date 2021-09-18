@@ -16,7 +16,7 @@ describe('/reader', () => {
         const response = await request(app).post('/reader').send({
          name: "Anne Hathaway",
          email: 'florals_in_spring?@hotmail.com',
-         password: ''
+         password: 'efef3yyhhhh'
         });
         const newReaderRecord = await Reader.findByPk(response.body.id, {
           raw: true,
@@ -26,7 +26,7 @@ describe('/reader', () => {
         expect(response.body.name).to.equal('Anne Hathaway');
         expect(newReaderRecord.name).to.equal('Anne Hathaway');
         expect(newReaderRecord.email).to.equal('florals_in_spring?@hotmail.com');
-        expect(newReaderRecord.password).to.equal('')
+        expect(newReaderRecord.password).to.equal('efef3yyhhhh')
       });
     });
   });

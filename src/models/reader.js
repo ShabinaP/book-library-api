@@ -6,7 +6,6 @@ module.exports = (connection, DataTypes) => {
             allowNull: false,
             validate: {
             notNull: true,
-            msg: "Please enter your name."
             }
            
         },
@@ -16,7 +15,6 @@ module.exports = (connection, DataTypes) => {
             allowNull: false,
             validate: {
             notNull: true,
-            msg: "This field cannot be empty.",
             isEmail: true,
            
         }
@@ -27,8 +25,6 @@ module.exports = (connection, DataTypes) => {
             allowNull: false,
             validate: {
             notNull: true,
-            initial: 0,
-            msg: "Please enter a valid password.",
             len: 8
             }
         }
