@@ -2,9 +2,13 @@ const { response, request } = require('express');
 const { Reader } = require('../models');
 
 exports.create = async (request, response) => {
+    try {
 const newReader = await Reader.create(request.body)
-    response.status(201).json(newReader)
-    .catch()
+    response.status(201).json(newReader)}
+ catch(SequelizeValidationError) {
+     console.log()
+
+ }
 }
 
 exports.read = async(request, response) => {
@@ -36,7 +40,7 @@ exports.updateById = async (request, response) => {
     }
     
 }
-// allow users to change passwordn- write tests.
+// allow users to change password- write tests.
 exports.update = async( request, response ) => {
     const { id } = request.params
     const reader = await Reader.findByPk(id)
