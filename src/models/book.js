@@ -22,6 +22,7 @@ module.exports = (connection, DataTypes) => {
         ISBN: {
             type: DataTypes.INTEGER,
             unique: true,
+            
         },
 
     }

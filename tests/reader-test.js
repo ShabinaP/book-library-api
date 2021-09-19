@@ -14,20 +14,16 @@ describe('/reader', () => {
   describe('with no records in the database', () => {
     describe('POST /reader', () => {
       it('creates a new reader in the database', async () => {
-        const response = await request(app).post('/reader').send({
-         name: "Anne Hathaway",
-         email: 'florals_in_spring?@hotmail.com',
-         password: 'efef3yyhhhh'
-        });
+        const response = await request(app).post('/reader').send(dataFactory.listOfReaders());
         const newReaderRecord = await Reader.findByPk(response.body.id, {
           raw: true,
         });
 
         expect(response.status).to.equal(201);
-        expect(response.body.name).to.equal('Anne Hathaway');
-        expect(newReaderRecord.name).to.equal('Anne Hathaway');
-        expect(newReaderRecord.email).to.equal('florals_in_spring?@hotmail.com');
-        expect(newReaderRecord.password).to.equal('efef3yyhhhh')
+        expect(response.body.name).to.equal(response.body.name);
+        expect(newReaderRecord.name).to.equal(newReaderRecord.name);
+        expect(newReaderRecord.email).to.equal(newReaderRecord.email);
+        expect(newReaderRecord.password).to.equal(newReaderRecord.password)
       });
     });
   });
@@ -37,21 +33,9 @@ describe('/reader', () => {
 
     beforeEach(async () => {
       readers = await Promise.all([
-        Reader.create({
-          name: 'Anne Hathaway',
-          email: 'florals_in_spring?@hotmail.com',
-          password: "efef3yyhhhh"
-        }),
-        Reader.create({ 
-        name: 'Lara Jean',
-        email: 'love_letters@kavinsky.com',
-        password: "ddfwfsdc2"
-      }),
-        Reader.create({ 
-          name: 'Allie Hamilton',
-          email: 'im_a_bird@gmail.com',
-          password: "hufihdsd"
-         }),
+      Reader.create(dataFactory.listOfReaders()),
+      Reader.create(dataFactory.listOfReaders()),
+      Reader.create(dataFactory.listOfReaders())
       ]);
     });
 
