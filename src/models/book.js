@@ -21,11 +21,13 @@ module.exports = (connection, DataTypes) => {
 
         ISBN: {
             type: DataTypes.INTEGER,
-            unique: true,
             
         },
 
+        
+
     }
     const BookModel = connection.define('Book', schema)
+ 
     return BookModel
 }
