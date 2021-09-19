@@ -5,14 +5,24 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-            notNull: false,
+            notNull: {
+                msg: 'A title is required.'
+            },
+            notEmpty: {
+                msg: 'Please enter the title of the book.'
+            }
             }
         },
         author:{
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notNull: false,
+            notNull: {
+                msg: 'An author is required.'
+                },
+            notEmpty: {
+                msg: 'Please enter the author of the book.'
+                }
             }
         },
         genre: {
@@ -23,8 +33,6 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.INTEGER,
             
         },
-
-        
 
     }
     const BookModel = connection.define('Book', schema)

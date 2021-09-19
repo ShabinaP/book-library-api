@@ -2,9 +2,19 @@ const { Book, Reader } = require("../models")
 const book = require("../models/book")
 
 exports.create= async (request, response) => {
+    try {
 const newBook = await Book.create(request.body)
-console.log(newBook)
-response.status(201).json(newBook)
+response.status(201).json(newBook)}
+catch(error) {
+    console.log('ERROR: ', error.name)
+     if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+         const errors = error.errors.map(err => err.message);
+         response.status(400).json({errors})
+     }
+     else {
+         throw error;
+     }
+}
 }
 
 exports.read = async (request, response) => {
