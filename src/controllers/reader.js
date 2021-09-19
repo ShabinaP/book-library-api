@@ -5,15 +5,15 @@ exports.create = async (request, response) => {
     try {
 const newReader = await Reader.create(request.body)
     response.status(201).json(newReader)}
- catch(err) {
-    if(err.name === 'SequelizeValidationError') {
-        return response.status(400).json( {
-            msg: err.errors.map(e => console.log (e.msg))
-        })
-    }
- else {
-     next(new ErrorResponse(`Sorry, could not create ${request.body.name}`, 404))
- }
+ catch(error) {
+     console.log('ERROR: ', error.name)
+     if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+         const errors = error.errors.map(err => err.message);
+         response.status(400).json({errors})
+     }
+     else {
+         throw error;
+     }
  }
 }
 
