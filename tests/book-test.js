@@ -42,10 +42,23 @@ describe('/book', () => {
                     genre: 'Fiction',
                     ISBN: 78787878
                 })
-
-
                 expect(response.status).to.equal(400)
                 expect(response.body.errors[0]).to.equal('Please enter the title of the book.')
+            })
+        })
+    })
+
+    describe('handling sequlize validation error for author', () => {
+        describe('creating an author with no value should throw a Sequelize Validation Error', () => {
+            it('throws a user friendly message to the user', async () => {
+                const response = await request (app).post('/book').send({
+                    title: 'Why We Sleep',
+                    author: ' ',
+                    genre: 'Non-fiction',
+                    ISBN: 83464784
+                })
+                expect(response.status).to.equal(400)
+                expect(response.body.errors[0]).to.equal('Please enter the author of the book.')
             })
         })
     })
