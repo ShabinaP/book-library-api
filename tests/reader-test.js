@@ -35,14 +35,43 @@ describe('/reader', () => {
          name: " ",
          email: 'hello@world.com',
          password: 'bdyegbndi83hd'
-        })
+        });
 
         expect(response.status).to.equal(400)
         expect(response.body.errors[0]).to.equal('Please enter a name.')
+      });
+    });
+  });
+
+  describe('handling Sequelize validation errors for the Reader model', () => {
+    describe('it should throw an error if the email address is not valid', () => {
+      it('sends a user friendly message to the client', async () => {
+        const response = await request(app).post('/reader').send({
+          name: 'Hello',
+          email: 'world',
+          password: '3783hfbskud'
+        });
+
+        expect(response.status).to.equal(400)
+        expect(response.body.errors[0]).to.equal('Please provide a valid email address.')
+      });
+    });
+  });
+
+  describe('handling Sequelize validation errors for the Reader model', () => {
+    describe('it should throw an error if the password is not a valid length', () => {
+      it('sends a user friendly message to the client', async () => {
+        const response = await request(app).post('/reader').send({
+          name: 'Shabina',
+          email: 'shabina-patel@hello.com',
+          password: 'dd'
+        });
+
+        expect(response.status).to.equal(400)
+        expect(response.body.errors[0]).to.equal('The password must be between 8 and 20 characters long.')
       })
     })
   })
-
   describe('with records in the database', () => {
     let readers;
 
