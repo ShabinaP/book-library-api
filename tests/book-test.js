@@ -48,7 +48,7 @@ describe('/book', () => {
         })
     })
 
-    describe('handling sequlize validation error for author', () => {
+    describe('handling sequelize validation error for author', () => {
         describe('creating an author with no value should throw a Sequelize Validation Error', () => {
             it('throws a user friendly message to the user', async () => {
                 const response = await request (app).post('/book').send({
@@ -59,6 +59,22 @@ describe('/book', () => {
                 })
                 expect(response.status).to.equal(400)
                 expect(response.body.errors[0]).to.equal('Please enter the author of the book.')
+            })
+        })
+    })
+
+    describe('handling sequelize validation errors for the Book model', () => {
+        describe('if both title and author are empty, it should throw 2 errors', () => {
+            it('throws 2 errors', async () => {
+                const response = await request(app).post('/book').send({
+                    title: " ",
+                    author: " ",
+                    genre: 'Fiction',
+                    ISBN: 66557744
+                })
+                expect(response.status).to.equal(400)
+                expect(response.body.errors[0]).to.equal('Please enter the title of the book.')
+                expect(response.body.errors[1]).to.equal('Please enter the author of the book.')
             })
         })
     })
