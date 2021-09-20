@@ -29,8 +29,26 @@ describe('/book', () => {
                 expect(newBookRecord.genre).to.equal(newBookRecord.genre);
                 expect(newBookRecord.ISBN).to.equal(newBookRecord.ISBN);
             });
+       
         });
     });
+
+    describe('handling sequelize validation and constraint errors',  () => {
+        describe('creating a book without a title should throw a Sequelize Validation Error', () => {
+            it('throws a user friendly error to the user', async () => {
+                const response = await request(app).post('/book').send({
+                    title: ' ',
+                    author: 'Khaled Hosseini',
+                    genre: 'Fiction',
+                    ISBN: 78787878
+                })
+
+
+                expect(response.status).to.equal(400)
+                expect(response.body.errors[0]).to.equal('Please enter the title of the book.')
+            })
+        })
+    })
 
 describe('with records in the database', () => {
     let books;

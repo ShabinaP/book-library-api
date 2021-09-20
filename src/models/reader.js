@@ -18,6 +18,9 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
+                notNull: {
+                    msg: 'An email address is required.'
+                },
             isEmail: {
                 msg: 'Please provide a valid email address.'
             },
@@ -29,10 +32,12 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-            
+            notNull: {
+                msg: 'Please enter a password.'
+            },
             len: {
-                args: [8,100],
-                msg: 'The password must be between 8 and 100 characters long'
+                args: [8,20],
+                msg: 'The password must be between 8 and 20 characters long.'
             } 
             }
         }
