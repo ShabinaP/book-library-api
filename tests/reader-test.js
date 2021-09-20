@@ -69,6 +69,19 @@ describe('/reader', () => {
 
         expect(response.status).to.equal(400)
         expect(response.body.errors[0]).to.equal('The password must be between 8 and 20 characters long.')
+      });
+    });
+  });
+
+  describe('handling Sequelize validation errors for the Reader model', () => {
+    describe('it should throw an error if any of the fields are null', () => {
+      it('should send a user friendly error to the client', async () => {
+        const response = await request(app).post('/reader').send({ });
+
+        expect(response.status).to.equal(400)
+        expect(response.body.errors[0]).to.equal('A name is required.')
+        expect(response.body.errors[1]).to.equal('An email address is required.')
+        expect(response.body.errors[2]).to.equal('Please enter a password.')
       })
     })
   })
