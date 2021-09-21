@@ -33,7 +33,7 @@ describe('/book', () => {
         });
     });
 
-    describe('handling sequelize validation and constraint errors',  () => {
+    describe('handling sequelize validation error for the title field',  () => {
         describe('creating a book without a title should throw a Sequelize Validation Error', () => {
             it('throws a user friendly error to the user', async () => {
                 const response = await request(app).post('/book').send({
@@ -44,9 +44,9 @@ describe('/book', () => {
                 })
                 expect(response.status).to.equal(400)
                 expect(response.body.errors[0]).to.equal('Please enter the title of the book.')
-            })
-        })
-    })
+            });
+        });
+    });
 
     describe('handling sequelize validation error for author', () => {
         describe('creating an author with no value should throw a Sequelize Validation Error', () => {
@@ -59,13 +59,13 @@ describe('/book', () => {
                 })
                 expect(response.status).to.equal(400)
                 expect(response.body.errors[0]).to.equal('Please enter the author of the book.')
-            })
-        })
-    })
+            });
+        });
+    });
 
     describe('handling sequelize validation errors for the Book model', () => {
         describe('if both title and author are empty, it should throw 2 errors', () => {
-            it('throws 2 errors', async () => {
+            it('throws 2 user friendly errors', async () => {
                 const response = await request(app).post('/book').send({
                     title: " ",
                     author: " ",
@@ -75,9 +75,26 @@ describe('/book', () => {
                 expect(response.status).to.equal(400)
                 expect(response.body.errors[0]).to.equal('Please enter the title of the book.')
                 expect(response.body.errors[1]).to.equal('Please enter the author of the book.')
-            })
+            });
+        });
+    });
+
+describe('handling sequelize validation errors for the Book model', () => {
+    describe('if title and author are null, it should throw 2 errors', () => {
+        it('throws 2 user friendly errors', async () => {
+            const response = await request(app).post('/book').send({
+                genre: 'Contemporary fiction',
+                ISBN: 33221133
+            });
+            expect(response.status).to.equal(400)
+            expect(response.body.errors[0]).to.equal('A title is required.');
+            expect(response.body.errors[1]).to.equal('An author is required.')
         })
     })
+} )   
+
+
+
 
 describe('with records in the database', () => {
     let books;
