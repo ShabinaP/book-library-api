@@ -145,6 +145,31 @@ describe('GET/book/:id', () => {
     });
 });
 
+describe('PATCH /book/:id', () => {
+    it('updates a books genre by id', async () => {
+        const book = books[0];
+        const response = await request(app)
+        .patch(`/book/${book.id}`)
+        .send({ genre: `Contemporary`})
+        const updatedBookRecord = await Book.findByPk(book.id, {
+            raw: true,
+        });
+
+        expect(response.status).to.equal(200);
+        expect(updatedBookRecord.genre).to.equal('Contemporary')
+
+        it('returns a 404 if the book does not exist', async () => {
+            const response = await request(app).get('/book/8736');
+
+            expect(response.status).to.equal(404)
+            expect(response.body.error).to.equal('The book could not be found.')
+        })
+    })
+})
+
+
+
+
 describe('DELETE /book/:id', () => {
     it('deletes a book record by id if its no longer available for loan', async () => {
 const book = books[0];

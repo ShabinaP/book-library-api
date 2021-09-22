@@ -32,6 +32,21 @@ exports.readById = async (request, response) => {
     response.status(200).json(book)}
 }
 
+exports.updateById = async (request, response) => {
+    const { id } = request.params
+    const book = await Book.findByPk(id)
+    const { genre } = request.body
+    const [ updatedRows ] = await Book.update({genre: genre}, {where: {id: id}})
+    if(!book) {
+        response.status(404).json({error: 'The book could not be found.'})
+    }
+    else {
+        response.status(200).json(updatedRows)
+    }
+}
+
+
+
 exports.delete = async (request, response) => {
     const { id } =  request.params
     const book = await Book.findByPk(id)
