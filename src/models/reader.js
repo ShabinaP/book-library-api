@@ -40,7 +40,7 @@ module.exports = (connection, DataTypes) => {
                 msg: 'The password must be between 8 and 20 characters long.'
             } 
             }
-        }
+        },
     }
 
     const ReaderModel = connection.define('Reader', schema);

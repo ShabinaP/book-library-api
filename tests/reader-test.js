@@ -34,7 +34,7 @@ describe('/reader', () => {
         const response = await request(app).post('/reader').send({
          name: " ",
          email: 'hello@world.com',
-         password: 'bdyegbndi83hd'
+         password: 'bdyegbndi83hd',
         });
 
         expect(response.status).to.equal(400)
