@@ -51,6 +51,40 @@ Genre.create({
 }),
     ]);
 });
+describe('GET /genre', () => {
+    it('gets all genres', async () => {
+        const response = await request(app).get('/genre');
+
+        expect(response.status).to.equal(200);
+        expect(response.body.length).to.equal(3);
+
+        response.body.forEach(genre => {
+            const expected = genres.find((a) => a.id === genre.id)
+
+            expect(genre.name).to.equal(expected.genre)
+            
+        });
+    });
+});
+
+
+describe('GET /genre/:id', () => {
+it('gets genre by id', async () => {
+    const genre = genres[0];
+    const response = await request(app).get(`/genre/${genre.id}`)
+
+    expect(response.status).to.equal(200);
+    expect(response.body.genre).to.equal(genre.genre)
+});
+
+it('returns a 404 if the record does not exist', async () => {
+    const response = await request(app).get('/genre/73638');
+
+    expect(response.status).to.equal(404);
+    expect(response.body.error).to.equal('The genre could not be found.')
+});
+});
+
 
     })
 })
