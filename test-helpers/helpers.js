@@ -1,4 +1,4 @@
-const { Book, Reader } = require('../models')
+const { Book, Reader } = require('../src/models')
 
 const get404Error = (model) => ({ error: `The {model} could not be found.`})
 
