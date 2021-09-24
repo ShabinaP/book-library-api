@@ -17,10 +17,7 @@ const newReader = await Reader.create(request.body)
  }
 }
 
-exports.read = async(request, response) => {
-    const readers= await Reader.findAll()
-    response.status(200).json(readers)
-}
+const read = (_, response) => getAllItems(response, 'reader')
 
 exports.readById = async(request, response) => {
 const readerId = request.params.id
@@ -61,3 +58,6 @@ exports.deleteById = async (request, response) => {
 
 
 
+module.exports = {
+   read
+}
