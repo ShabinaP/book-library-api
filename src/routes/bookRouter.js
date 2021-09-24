@@ -4,15 +4,15 @@ app.use(express.json())
 const router = express.Router()
 const bookCtrl = require('../controllers/book')
 
-router.post('/', bookCtrl.create)
+router.route('/').get(bookCtrl.read).post(bookCtrl.create)
 
-router.get('/', bookCtrl.read)
+router
+.route('/:id')
+.get(bookCtrl.readById)
+.patch(bookCtrl.updateById)
+.delete(bookCtrl.delete)
 
-router.get('/:id',bookCtrl.readById)
 
-router.patch('/:id', bookCtrl.updateById)
-
-router.delete('/:id', bookCtrl.delete)
 
 
 

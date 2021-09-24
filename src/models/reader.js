@@ -42,11 +42,6 @@ module.exports = (connection, DataTypes) => {
             }
         },
 
-        defaultScope: {
-            attributes: {
-                exclude: ['password']
-            },
-        },
     }
 
     const ReaderModel = connection.define('Reader', schema);
