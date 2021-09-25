@@ -1,35 +1,21 @@
-const { getAllItems, getItemById, deleteItem, updateItem } = require("../../test-helpers/helpers")
-const { Book } = require("../models")
+const { getAllItems, getItemById, deleteItem, updateItem, createItem } = require("../../test-helpers/helpers")
 
+const createBook= (request, response) => createItem(response, 'book', request.body)
 
-exports.create= async (request, response) => {
-    try {
-const newBook = await Book.create(request.body)
-response.status(201).json(newBook)}
-catch(error) {
-    console.log('ERROR: ', error.name)
-     if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
-         const errors = error.errors.map(err => err.message);
-         response.status(400).json({errors})
-     }
-     else {
-         throw error;
-     }
-}
-}
+const getBook = (_, response) => getAllItems(response, 'book')
 
-const read = (_, response) => getAllItems(response, 'book,')
+const getBookById = (request, response) => getItemById(response, 'book', request.params.id)
 
-const readById = (request, response) => getItemById(response, 'book', request.params.id)
+const updateBookById = (request, response) => updateItem(response, 'book', request.body, request.params.id)
 
-const updateById = (request, response) => updateItem(response, 'book', request.body, request.params.id)
-
-const deleteById = (request, response) => deleteItem(response, 'book', request.params.id)
+const deleteBookById = (request, response) => deleteItem(response, 'book', request.params.id)
 
 
 module.exports = {
-    read,
-    readById,
-    deleteById,
-    updateById
+    createBook,
+    getBook,
+    getBookById,
+    updateBookById,
+    deleteBookById
+ 
  }
