@@ -1,63 +1,24 @@
 const { response, request } = require('express');
+const { getAllItems, getItemById, deleteItem, updateItem, createItem } = require('../../test-helpers/helpers');
 const { Reader } = require('../models');
 
-exports.create = async (request, response) => {
-    try {
-const newReader = await Reader.create(request.body)
-    response.status(201).json(newReader)}
- catch(error) {
-     console.log('ERROR: ', error.name)
-     if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
-         const errors = error.errors.map(err => err.message);
-         response.status(400).json({errors})
-     }
-     else {
-         throw error;
-     }
- }
-}
+const createReader = (request, response) => createItem(response, 'reader', request.body)
 
-const read = (_, response) => getAllItems(response, 'reader')
+const getReader = (_, response) => getAllItems(response, 'reader')
 
-exports.readById = async(request, response) => {
-const readerId = request.params.id
-const reader = await Reader.findByPk(readerId)
-if(!reader) {
-    response.status(404).json({ error: 'The reader could not be found.'})
-}
-else {
-response.status(200).json(reader)}
-}
+const getReaderById = (request, response) => getItemById(response, 'reader', request.params.id)
 
-exports.updateById = async (request, response) => {
-    const { id } = request.params
-    const reader = await Reader.findByPk(id)
-    const  { email }  = request.body
-    const [ updatedRows ] = await Reader.update({email: email}, {where: {id: id}})
-    if(!reader) {
-        response.status(404).json({ error: 'The reader could not be found.'})
-    }
+const updateReaderById = (request, response) => updateItem(response, 'reader', request.body, request.params.id)
 
-    else {
-        response.status(200).json(updatedRows)
-    }
-    
-}
- 
-exports.deleteById = async (request, response) => {
-    const { id } = request.params
-    const reader = await Reader.findByPk(id)
-    const deletedRows = await Reader.destroy({where: {id: id}})
-    if(!reader) {
-        response.status(404).json({error: 'The reader could not be found.'})
-    }
-    else{
-        response.status(204).json(deletedRows)
-    }
-}
+const deleteReaderById = (request, response) => deleteItem(response, 'reader', request.params.id)
+
 
 
 
 module.exports = {
-   read
+   getReader,
+   getReaderById,
+   createReader,
+   deleteReaderById,
+   updateReaderById
 }
