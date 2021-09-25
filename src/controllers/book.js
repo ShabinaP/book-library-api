@@ -1,5 +1,6 @@
-const { Book, Reader } = require("../models")
-const book = require("../models/book")
+const { getAllItems, getItemById, deleteItem, updateItem } = require("../../test-helpers/helpers")
+const { Book } = require("../models")
+
 
 exports.create= async (request, response) => {
     try {
@@ -17,44 +18,18 @@ catch(error) {
 }
 }
 
-exports.read = async (request, response) => {
-    const books = await Book.findAll()
-    response.status(200).json(books)
-}
+const read = (_, response) => getAllItems(response, 'book,')
 
-exports.readById = async (request, response) => {
-    const { id } = request.params
-    const book = await Book.findByPk(id)
-    if(!book) {
-        response.status(404).json({ error: 'The book could not be found.'})
-    }
-    else {
-    response.status(200).json(book)}
-}
+const readById = (request, response) => getItemById(response, 'book', request.params.id)
 
-exports.updateById = async (request, response) => {
-    const { id } = request.params
-    const book = await Book.findByPk(id)
-    const { genre } = request.body
-    const [ updatedRows ] = await Book.update({genre: genre}, {where: {id: id}})
-    if(!book) {
-        response.status(404).json({error: 'The book could not be found.'})
-    }
-    else {
-        response.status(200).json(updatedRows)
-    }
-}
+const updateById = (request, response) => updateItem(response, 'book', request.body, request.params.id)
+
+const deleteById = (request, response) => deleteItem(response, 'book', request.params.id)
 
 
-
-exports.delete = async (request, response) => {
-    const { id } =  request.params
-    const book = await Book.findByPk(id)
-    const deletedRows = await Book.destroy({ where: {id: id}})
-    if(!book) {
-        response.status(404).json({ error: 'The book could not be found.'})
-    }
-    else {
-        response.status(204).json(deletedRows)
-    }
-}
+module.exports = {
+    read,
+    readById,
+    deleteById,
+    updateById
+ }
